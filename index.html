@@ -269,6 +269,51 @@ img{max-width:100%}
 .heat div.sel{outline:2px solid var(--text); outline-offset:1px;}
 .heat-info{margin-top:12px; padding:10px 12px; border-radius:12px; background:var(--raised); font-size:13.5px; font-weight:600; color:var(--dim);}
 .heat-info b{color:var(--text);}
+/* full-screen grove */
+body.grove-mode{overflow:hidden; height:100%;}
+body.grove-mode .top{position:fixed; left:0; right:0; top:0; z-index:12; margin:0; padding:calc(10px + env(safe-area-inset-top,0px)) 16px 14px; background:linear-gradient(rgba(0,0,0,.32),transparent); pointer-events:none;}
+body.grove-mode .top > *{pointer-events:auto;}
+body.grove-mode .logo{color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.4);}
+body.grove-mode .note{display:none;}
+#v-grove.on > *{animation:none;}
+.grove-stage{position:fixed; inset:0; z-index:0; overflow:hidden; background:#0B0D12;}
+#v-grove.on .grove-stage{animation:gfade .7s ease both;}
+@keyframes gfade{from{opacity:0}}
+.grove-stage #scene,.grove-stage .scene{display:block; width:100%; height:100%;}
+.grove-hud{position:fixed; z-index:6; left:16px; right:16px; top:calc(64px + env(safe-area-inset-top,0px)); max-width:448px; margin:0 auto; padding:12px 14px 11px; border-radius:18px; color:#fff; background:rgba(10,12,20,.4); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4); box-shadow:0 12px 30px -14px rgba(0,0,0,.55);}
+#v-grove.on .grove-hud{animation:hudin .6s cubic-bezier(.2,.8,.2,1) .25s both;}
+@keyframes hudin{from{opacity:0; translate:0 -12px}}
+.hud-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
+.hud-top b{font-size:19px; font-weight:800; letter-spacing:-.02em;}
+.hud-top span{font-size:12px; font-weight:700; opacity:.8; font-variant-numeric:tabular-nums;}
+.hud-bar{height:6px; border-radius:6px; background:rgba(255,255,255,.2); margin:9px 0 7px; overflow:hidden;}
+.hud-bar b{display:block; height:100%; width:0; border-radius:6px; background:linear-gradient(90deg,#6CC27A,#C4F29A); transition:width .9s cubic-bezier(.2,.8,.2,1) .4s;}
+.grove-hud p{margin:0; font-size:12.5px; line-height:1.35; opacity:.88;}
+.tap-hint{position:fixed; z-index:6; left:0; right:0; margin:0; text-align:center; bottom:calc(150px + env(safe-area-inset-bottom,0px)); font-size:12.5px; font-weight:700; color:#fff; text-shadow:0 1px 8px rgba(0,0,0,.6); pointer-events:none; opacity:0;}
+#v-grove.on .tap-hint{animation:hint 4.5s ease 1.6s both;}
+@keyframes hint{0%{opacity:0}15%,70%{opacity:.9}100%{opacity:0}}
+.grove-fab{position:fixed; z-index:7; left:0; right:0; margin:0 auto; width:max-content; bottom:calc(84px + env(safe-area-inset-bottom,0px)); display:flex; align-items:center; gap:9px; height:54px; padding:0 8px 0 18px; border:none; border-radius:999px; background:var(--text); color:var(--bg); font-weight:800; font-size:15.5px; cursor:pointer; box-shadow:0 16px 34px -10px rgba(0,0,0,.6); transition:scale .15s;}
+.grove-fab:active{scale:.95;}
+#v-grove.on .grove-fab{animation:fabin .6s cubic-bezier(.3,1.5,.5,1) .45s both;}
+@keyframes fabin{from{opacity:0; translate:0 24px; scale:.9}}
+.fab-bal{display:flex; align-items:center; gap:4px; height:38px; padding:0 12px; border-radius:999px; background:var(--drop-wash); color:var(--drop); font-variant-numeric:tabular-nums;}
+.fab-dot{position:absolute; top:-5px; right:-5px; min-width:22px; height:22px; padding:0 6px; border-radius:11px; background:var(--accent); color:#fff; font-size:12px; font-weight:800; display:grid; place-items:center; border:2px solid var(--text); animation:dotin .5s cubic-bezier(.3,1.7,.5,1) 1s both;}
+.sheet-backdrop{position:fixed; inset:0; z-index:40; background:rgba(0,0,0,.42); opacity:0; pointer-events:none; transition:opacity .35s;}
+.sheet-backdrop.show{opacity:1; pointer-events:auto;}
+.grove-sheet{position:fixed; z-index:41; left:0; right:0; bottom:0; max-width:520px; margin:0 auto; height:84vh; height:84dvh; max-height:780px; display:flex; flex-direction:column; background:var(--surface); border-radius:26px 26px 0 0; border:1px solid var(--line); border-bottom:none; box-shadow:0 -24px 60px -12px rgba(0,0,0,.55); transform:translateY(105%); visibility:hidden; transition:transform .45s cubic-bezier(.2,.9,.25,1), visibility 0s linear .45s;}
+.grove-sheet.open{transform:translateY(0); visibility:visible; transition:transform .45s cubic-bezier(.2,.9,.25,1), visibility 0s;}
+.grove-sheet.dragging{transition:none;}
+.sheet-grab{display:flex; justify-content:center; padding:10px 0 6px; cursor:grab; touch-action:none;}
+.sheet-grab i{width:42px; height:5px; border-radius:5px; background:var(--line);}
+.sheet-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:2px 18px 10px; touch-action:none;}
+.sheet-head h2{margin:0; font-size:22px; font-weight:800; letter-spacing:-.02em;}
+.sheet-x{flex:none; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--raised); color:var(--dim); display:grid; place-items:center; cursor:pointer;}
+.sheet-body{flex:1; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:4px 18px calc(28px + env(safe-area-inset-bottom,0px));}
+.sheet-body .bank{padding:14px 16px; border-radius:18px; background:var(--raised); border:1px solid var(--line);}
+.sheet-sub{margin:20px 0 10px; font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--dim);}
+.sheet-body .skies{margin-top:0;}
+.sway.shake{animation:shake .7s cubic-bezier(.3,1.6,.5,1);}
+@keyframes shake{20%{transform:rotate(2.2deg)}45%{transform:rotate(-1.8deg)}70%{transform:rotate(1deg)}100%{transform:rotate(0)}}
 /* progress v2 */
 .climb{padding:18px 16px 14px; overflow:hidden; position:relative;}
 .climb::before{content:""; position:absolute; inset:-60% -30% auto auto; width:260px; height:260px; border-radius:50%; background:radial-gradient(circle,var(--accent) 0%,transparent 65%); opacity:.12; pointer-events:none;}
@@ -478,25 +523,38 @@ img{max-width:100%}
 
   <!-- GROVE -->
   <section class="view" id="v-grove">
-    <div class="scene-card"><div id="scene"></div><div class="stage-badge" id="stageBadge">Seed</div></div>
-    <div class="card grow-info">
-      <h2 class="disp" id="stageName">Seed</h2>
+    <div class="grove-stage" id="groveStage"><div id="scene"></div></div>
+    <div class="grove-hud">
+      <div class="hud-top"><b class="disp" id="stageName">Seed</b><span id="stageDays"></span></div>
+      <div class="hud-bar"><b id="stageBar"></b></div>
       <p id="stageNext">1 clean day until it sprouts.</p>
-      <div class="bar"><b id="stageBar"></b></div>
     </div>
-    <div class="card">
-      <div class="bank">
-        <div class="big disp"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.6 4.6-6.5 8.2-6.5 11.7a6.5 6.5 0 0013 0C18.5 10.7 15.6 7.1 12 2.5z" fill="currentColor"/></svg><span id="bal2">0</span></div>
-        <p>10 drops per clean day, +2 for every day of your streak (up to +40), and a bonus at each milestone.</p>
+    <p class="tap-hint" id="tapHint">Tap the tree</p>
+    <button class="grove-fab" id="groveMenuBtn" type="button" aria-haspopup="dialog" aria-controls="groveSheet">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-7"/><path d="M12 14c-4 0-7-2.6-7-6a5 5 0 019.6-1.9A4 4 0 0119 10c0 2.3-2.2 4-7 4z"/><path d="M8 21h8"/></svg>
+      Upgrades
+      <span class="fab-bal"><svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.6 4.6-6.5 8.2-6.5 11.7a6.5 6.5 0 0013 0C18.5 10.7 15.6 7.1 12 2.5z" fill="currentColor"/></svg><span id="fabBal">0</span></span>
+      <span class="fab-dot" id="fabDot" hidden></span>
+    </button>
+    <div class="sheet-backdrop" id="groveBackdrop"></div>
+    <div class="grove-sheet" id="groveSheet" role="dialog" aria-modal="true" aria-label="Upgrades" aria-hidden="true">
+      <div class="sheet-grab" id="sheetGrab"><i></i></div>
+      <div class="sheet-head">
+        <h2 class="disp">Grow your grove</h2>
+        <button class="sheet-x" id="sheetClose" type="button" aria-label="Close upgrades"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
-      <div class="skies" id="skies"></div>
-    </div>
-    <div class="card">
-      <div class="card-head"><h2 class="disp">Grow your grove</h2></div>
-      <div class="shop" id="shop"></div>
+      <div class="sheet-body" id="sheetBody">
+        <div class="bank">
+          <div class="big disp"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.6 4.6-6.5 8.2-6.5 11.7a6.5 6.5 0 0013 0C18.5 10.7 15.6 7.1 12 2.5z" fill="currentColor"/></svg><span id="bal2">0</span></div>
+          <p>10 drops per clean day, +2 for every day of your streak (up to +40), and a bonus at each milestone.</p>
+        </div>
+        <h3 class="sheet-sub">Sky</h3>
+        <div class="skies" id="skies"></div>
+        <h3 class="sheet-sub">Upgrades</h3>
+        <div class="shop" id="shop"></div>
+      </div>
     </div>
   </section>
-
   <!-- PROGRESS -->
   <section class="view" id="v-progress">
     <div class="card climb">
@@ -799,9 +857,10 @@ img{max-width:100%}
     const r=rng(42), q=rng(99), rr=rng(5);
     const wrap=(id,inner,dd)=>`<g data-deco="${id}" class="deco${popId===id?' new':''}" style="--dd:${dd||1.5}s">${inner}</g>`;
     const hillTree=night?'#1B2E40':(key==='sunset'?'#7B5F7B':'#8CC095');
-    let o=`<svg class="scene${anim?' grow':''}" viewBox="0 0 360 280" role="img" aria-label="Your tree, ${STAGES[st].n}">
+    const box=$('groveStage').getBoundingClientRect(), asp=(box.width||360)/(box.height||280), VH=Math.max(280,360/asp), VY=Math.min(0,238-VH*.7), FB=VY+VH, tall=VH>300, skyDy=tall?(VY+VH*.15)-56:0;
+    let o=`<svg class="scene${anim?' grow':''}" viewBox="0 ${VY.toFixed(1)} 360 ${VH.toFixed(1)}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Your tree, ${STAGES[st].n}">
     <defs>
-      <linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sk.sky[0]}"/><stop offset=".62" stop-color="${sk.sky[1]}"/><stop offset="1" stop-color="${sk.sky[2]}"/></linearGradient>
+      <linearGradient id="gSky" gradientUnits="userSpaceOnUse" x1="0" y1="${VY.toFixed(0)}" x2="0" y2="240"><stop offset="0" stop-color="${sk.sky[0]}"/><stop offset=".62" stop-color="${sk.sky[1]}"/><stop offset="1" stop-color="${sk.sky[2]}"/></linearGradient>
       <radialGradient id="gGlow"><stop offset="0" stop-color="${sk.sun}" stop-opacity=".65"/><stop offset=".4" stop-color="${sk.sun}" stop-opacity=".25"/><stop offset="1" stop-color="${sk.sun}" stop-opacity="0"/></radialGradient>
       <radialGradient id="gSun" cx=".4" cy=".35"><stop offset="0" stop-color="#FFF6D0"/><stop offset="1" stop-color="${sk.sun}"/></radialGradient>
       <radialGradient id="gLan"><stop offset="0" stop-color="#FFD27A" stop-opacity=".85"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient>
@@ -814,22 +873,22 @@ img{max-width:100%}
       <linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${night?'#2C4F7A':'#8ACDE8'}"/><stop offset="1" stop-color="${night?'#1A3354':'#4E9CC4'}"/></linearGradient>
       <linearGradient id="gAur" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3DF5A8" stop-opacity="0"/><stop offset=".3" stop-color="#3DF5A8" stop-opacity=".6"/><stop offset=".7" stop-color="#7B8CFF" stop-opacity=".45"/><stop offset="1" stop-color="#C77BFF" stop-opacity="0"/></linearGradient>
     </defs>
-    <rect width="360" height="280" fill="url(#gSky)"/>`;
-    if(night){ for(let i=0;i<60;i++){o+=`<circle class="tw" cx="${(q()*360).toFixed(1)}" cy="${(q()*160).toFixed(1)}" r="${(.4+q()*1.2).toFixed(2)}" fill="#fff" style="animation-delay:${(-q()*3).toFixed(2)}s;animation-duration:${(2+q()*3).toFixed(2)}s"/>`;} }
-    if(key==='aurora'){ o+=`<g class="aur"><path d="M-30 70 Q60 20 140 60 T300 40 T400 60 L400 110 Q300 80 220 105 T60 100 T-30 120Z" fill="url(#gAur)" opacity=".75"/></g><g class="aur" style="animation-duration:12s;animation-delay:-4s"><path d="M-30 100 Q90 60 170 95 T400 80 L400 130 Q280 110 170 130 T-30 140Z" fill="url(#gAur)" opacity=".5"/></g>`; }
-    if(night){ o+=`<circle class="glow" cx="292" cy="54" r="46" fill="url(#gGlow)"/><circle cx="292" cy="54" r="14" fill="#F3F1E4"/><circle cx="287" cy="50" r="3" fill="#DAD7C6"/><circle cx="296" cy="59" r="2.1" fill="#DAD7C6"/><circle cx="294" cy="48" r="1.3" fill="#DAD7C6"/>`; }
+    <rect y="-1200" width="360" height="1480" fill="url(#gSky)"/>`;
+    if(night){ const sn=tall?110:60; for(let i=0;i<sn;i++){o+=`<circle class="tw" cx="${(q()*360).toFixed(1)}" cy="${(VY+q()*(160-VY)).toFixed(1)}" r="${(.4+q()*1.2).toFixed(2)}" fill="#fff" style="animation-delay:${(-q()*3).toFixed(2)}s;animation-duration:${(2+q()*3).toFixed(2)}s"/>`;} }
+    if(key==='aurora'){ o+=`<g transform="translate(0 ${(skyDy*.8).toFixed(1)})"><g class="aur"><path d="M-30 70 Q60 20 140 60 T300 40 T400 60 L400 110 Q300 80 220 105 T60 100 T-30 120Z" fill="url(#gAur)" opacity=".75"/></g><g class="aur" style="animation-duration:12s;animation-delay:-4s"><path d="M-30 100 Q90 60 170 95 T400 80 L400 130 Q280 110 170 130 T-30 140Z" fill="url(#gAur)" opacity=".5"/></g></g>`; }
+    if(night){ const my=Math.round(tall?VY+VH*.33:54); o+=`<circle class="glow" cx="292" cy="${my}" r="46" fill="url(#gGlow)"/><circle cx="292" cy="${my}" r="14" fill="#F3F1E4"/><circle cx="287" cy="${my-4}" r="3" fill="#DAD7C6"/><circle cx="296" cy="${my+5}" r="2.1" fill="#DAD7C6"/><circle cx="294" cy="${my-6}" r="1.3" fill="#DAD7C6"/>`; }
     else {
-      const [sx,sy,sr]=key==='sunset'?[270,168,26]:[296,56,18];
+      const [sx,sy,sr]=key==='sunset'?[270,168,26]:[292,Math.round(tall?VY+VH*.33:56),tall?20:18];
       let rays=''; for(let i=0;i<12;i++){const a=i/12*Math.PI*2, a2=a+.09; rays+=`<path d="M${sx} ${sy}L${(sx+Math.cos(a)*230).toFixed(0)} ${(sy+Math.sin(a)*230).toFixed(0)}L${(sx+Math.cos(a2)*230).toFixed(0)} ${(sy+Math.sin(a2)*230).toFixed(0)}Z" fill="${sk.sun}" opacity="${i%2?.05:.09}"/>`;}
       o+=`<g class="rays" style="transform-origin:${sx}px ${sy}px">${rays}</g><circle class="glow" cx="${sx}" cy="${sy}" r="${sr*3}" fill="url(#gGlow)"/><circle cx="${sx}" cy="${sy}" r="${sr}" fill="url(#gSun)"/>`;
     }
-    [[34,.9,-8],[62,.7,-40],[46,1.1,-70]].forEach(([y,s,dl],i)=>{o+=`<g class="cloud" style="animation-duration:${60+i*18}s;animation-delay:${dl}s" opacity="${sk.co}"><g transform="translate(0 ${y}) scale(${s})"><ellipse cx="32" cy="12" rx="32" ry="7" fill="${sk.cloud}"/><circle cx="18" cy="6" r="10" fill="${sk.cloud}"/><circle cx="34" cy="1" r="14" fill="${sk.cloud}"/><circle cx="50" cy="7" r="9" fill="${sk.cloud}"/><ellipse cx="33" cy="15" rx="28" ry="3" fill="#000" opacity=".06"/></g></g>`;});
-    o+=`<path d="M0 196 Q60 158 130 182 T260 170 T360 186 V280 H0Z" fill="${sk.hills[0]}"/>`;
+    (tall?[[34+skyDy*1.3,1,-8],[62+skyDy*.8,.7,-40],[46+skyDy*.35,1.1,-70],[20+skyDy*.1,.8,-25]]:[[34,.9,-8],[62,.7,-40],[46,1.1,-70]]).forEach(([y,s,dl],i)=>{o+=`<g class="cloud" style="animation-duration:${60+i*18}s;animation-delay:${dl}s" opacity="${sk.co}"><g transform="translate(0 ${y.toFixed(1)}) scale(${s})"><ellipse cx="32" cy="12" rx="32" ry="7" fill="${sk.cloud}"/><circle cx="18" cy="6" r="10" fill="${sk.cloud}"/><circle cx="34" cy="1" r="14" fill="${sk.cloud}"/><circle cx="50" cy="7" r="9" fill="${sk.cloud}"/><ellipse cx="33" cy="15" rx="28" ry="3" fill="#000" opacity=".06"/></g></g>`;});
+    o+=`<path d="M0 196 Q60 158 130 182 T260 170 T360 186 V1400 H0Z" fill="${sk.hills[0]}"/>`;
     hillPoints().forEach(([x,y],i)=>{ if(i%2) return; const h=5+q()*5; o+=`<rect x="${(x-.6).toFixed(1)}" y="${(y-h*.4).toFixed(1)}" width="1.2" height="${(h*.5).toFixed(1)}" fill="${hillTree}"/><ellipse cx="${x.toFixed(1)}" cy="${(y-h*.7).toFixed(1)}" rx="${(h*.42).toFixed(1)}" ry="${(h*.6).toFixed(1)}" fill="${hillTree}"/>`; });
     o+=`<rect y="140" width="360" height="100" fill="url(#gMist)"/>`;
-    o+=`<path d="M0 222 Q90 192 180 212 T360 206 V280 H0Z" fill="${sk.hills[1]}"/>`;
-    o+=`<path d="M0 236 Q180 226 360 236 V280 H0Z" fill="url(#gGround)"/>`;
-    for(let i=0;i<14;i++){const x=q()*360,y=246+q()*30,w=6+q()*10; o+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)}q${(w/2).toFixed(1)} -2 ${w.toFixed(1)} 0" stroke="${sk.dark}" stroke-width="1.2" fill="none" opacity=".45" stroke-linecap="round"/>`;}
+    o+=`<path d="M0 222 Q90 192 180 212 T360 206 V1400 H0Z" fill="${sk.hills[1]}"/>`;
+    o+=`<path d="M0 236 Q180 226 360 236 V1400 H0Z" fill="url(#gGround)"/>`;
+    for(let i=0;i<(tall?30:14);i++){const x=q()*360,y=246+q()*(FB-252),w=6+q()*10; o+=`<path d="M${x.toFixed(1)} ${y.toFixed(1)}q${(w/2).toFixed(1)} -2 ${w.toFixed(1)} 0" stroke="${sk.dark}" stroke-width="1.2" fill="none" opacity=".45" stroke-linecap="round"/>`;}
     if(has('pond')){ o+=wrap('pond',`<ellipse cx="294" cy="256" rx="46" ry="12" fill="${sk.dark}"/><ellipse cx="294" cy="255" rx="42" ry="9.5" fill="url(#gWater)"/><path d="M258 253 Q294 249 330 253" stroke="#fff" stroke-opacity=".35" stroke-width="1" fill="none"/><ellipse class="rip" cx="286" cy="256" rx="16" ry="4" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1"/><ellipse class="rip" cx="304" cy="257" rx="12" ry="3" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1" style="animation-delay:-1.8s"/><path d="M252 256 q-2 -9 1 -14 M256 257 q1 -8 -1 -12" stroke="${P.dark}" stroke-width="1.4" fill="none" stroke-linecap="round"/><ellipse cx="253" cy="241" rx="1.4" ry="3.2" fill="#6B4A33"/>`,.4); }
     if(has('path')){ o+=wrap('path',[[180,273,14,4.6],[185,262,11,3.8],[180,252.5,8.5,3],[183,245,6.5,2.4]].map(([x,y,a,b])=>`<ellipse cx="${x}" cy="${y+1.4}" rx="${a}" ry="${b}" fill="${sk.dark}"/><ellipse cx="${x}" cy="${y}" rx="${a}" ry="${b}" fill="${sk.stone}"/><ellipse cx="${x-a*.25}" cy="${y-b*.3}" rx="${a*.45}" ry="${b*.35}" fill="#fff" opacity=".25"/>`).join(''),.3); }
 
@@ -837,7 +896,7 @@ img{max-width:100%}
     if(st===0){
       o+=`<ellipse cx="180" cy="240" rx="40" ry="4" fill="url(#gShadow)"/><path d="M136 240 Q180 212 224 240Z" fill="${sk.dark}"/><path d="M148 238 Q180 220 212 238" stroke="${sk.ground}" stroke-width="1.4" fill="none" opacity=".6"/>`;
       [[158,236],[203,237],[168,238],[194,232],[182,236],[210,239]].forEach(([x,y])=>{o+=`<circle cx="${x}" cy="${y}" r="1.3" fill="#000" opacity=".2"/>`;});
-      o+=`<g class="seed"><g transform="translate(180 229) scale(1.9) translate(-180 -229)"><ellipse cx="180" cy="229" rx="7" ry="5.4" fill="url(#gSeed)"/><path d="M175.5 227 q4.5 -2.6 9 0" stroke="#E5C29A" stroke-width="1" fill="none" opacity=".8"/><circle cx="177" cy="226.5" r="1.4" fill="#fff" opacity=".5"/><path d="M180 223.6 q1 -3 3 -4" stroke="#7CC46F" stroke-width="1.6" fill="none" stroke-linecap="round"/></g></g>`;
+      o+=`<g class="seed"><g transform="translate(180 229) scale(${tall?2.6:1.9}) translate(-180 -229)"><ellipse cx="180" cy="229" rx="7" ry="5.4" fill="url(#gSeed)"/><path d="M175.5 227 q4.5 -2.6 9 0" stroke="#E5C29A" stroke-width="1" fill="none" opacity=".8"/><circle cx="177" cy="226.5" r="1.4" fill="#fff" opacity=".5"/><path d="M180 223.6 q1 -3 3 -4" stroke="#7CC46F" stroke-width="1.6" fill="none" stroke-linecap="round"/></g></g>`;
     } else if(st<=2){
       const h=st===1?20:34;
       o+=`<ellipse cx="180" cy="240" rx="34" ry="4" fill="url(#gShadow)"/><path d="M146 240 Q180 222 214 240Z" fill="${sk.dark}"/>`;
@@ -845,8 +904,8 @@ img{max-width:100%}
       const lv=[[180,238-h,-2.5,12,5],[180,238-h,-.7,12,5]];
       if(st===2) lv.push([180.5,238-h*.55,-2.7,10,4],[180,238-h*.35,-.3,9,3.6],[180,238-h,-1.57,9,3.4]);
       lv.forEach(([x,y,a,l,w],i)=>{ s+=`<path d="${leafD(x,y,a,l,w)}" fill="${i%2?P.mid:P.light}"/><path d="M${x} ${y}L${(x+Math.cos(a)*l*.75).toFixed(1)} ${(y+Math.sin(a)*l*.75).toFixed(1)}" stroke="${P.vein}" stroke-width=".7" opacity=".7"/>`; });
-      o+=`<g class="sprout"><g transform="translate(180 238) scale(1.9) translate(-180 -238)">${s}</g></g>`;
-      S.tips=[{x:180,y:238-h*1.9,r:12}];
+      o+=`<g class="sprout"><g transform="translate(180 238) scale(${tall?2.7:1.9}) translate(-180 -238)">${s}</g></g>`;
+      S.tips=[{x:180,y:238-h*(tall?2.7:1.9),r:12}];
     } else {
       const T={3:[34,6,3],4:[40,8.5,4],5:[46,11,5],6:[50,13.5,6],7:[54,16,7]}[st];
       const br=[],bl=[],firsts=[],tips=[];
@@ -871,7 +930,7 @@ img{max-width:100%}
           if(nd<.92+cr()*.12) bl.push({x:jx,y:jy,r:base*(.8+cr()*.45),d:T[2]});
         } }
       bl.sort((m,n)=>m.y-n.y);      let minX=180,maxX=180,minY=238; bl.forEach(b=>{minX=Math.min(minX,b.x-b.r);maxX=Math.max(maxX,b.x+b.r);minY=Math.min(minY,b.y-b.r);});
-      const k=Math.min(1,(238-46)/(238-minY),(180-12)/(180-minX),(348-180)/(maxX-180));
+      const topLim=tall?VY+VH*.3:46, k=Math.min(tall?1.55:1,(238-topLim)/(238-minY),(180-10)/(180-minX),(350-180)/(maxX-180));
       const fitX=x=>180+(x-180)*k, fitY=y=>238+(y-238)*k;
       S.tips=tips.map(t=>({x:fitX(t.x),y:fitY(t.y),r:t.r*k}));
       const step=.15, leafAt=(T[2]+1)*step;
@@ -902,43 +961,47 @@ img{max-width:100%}
     }
     if(has('bench')){ const c='#8A5E3C', hl='#B5875E', lg='#4E3423'; o+=wrap('bench',`<ellipse cx="91" cy="240.5" rx="26" ry="2.6" fill="url(#gShadow)"/><rect x="72" y="231" width="3" height="9" fill="${lg}"/><rect x="107" y="231" width="3" height="9" fill="${lg}"/><rect x="74" y="211" width="2.4" height="17" fill="${lg}"/><rect x="106" y="211" width="2.4" height="17" fill="${lg}"/><rect x="70" y="211" width="42" height="3.2" rx="1.4" fill="${c}"/><rect x="70" y="218" width="42" height="3.2" rx="1.4" fill="${c}"/><rect x="68" y="227" width="46" height="4.2" rx="1.6" fill="${c}"/><rect x="68" y="227" width="46" height="1.3" rx=".6" fill="${hl}"/><rect x="70" y="211" width="42" height="1" rx=".5" fill="${hl}"/>`,.5); }
     if(has('grass')){ const g=rng(3); let s=''; for(let i=0;i<52;i++){const x=3+i*6.9+g()*3, h=6+g()*8, y=236+g()*4; s+=`<path class="blade" d="M${x.toFixed(1)} ${y.toFixed(1)} q${(g()*3).toFixed(1)} ${(-h/2).toFixed(1)} ${(g()*4-1).toFixed(1)} ${(-h).toFixed(1)}" stroke="${g()<.5?'#4E9A4F':'#6CB866'}" stroke-width="1.6" fill="none" stroke-linecap="round" style="animation-delay:${(-g()*3).toFixed(2)}s"/>`;}
-      for(let i=0;i<18;i++){const x=10+g()*340, y=244+g()*30; if(Math.abs(x-180)<18&&has('path')) continue; if(has('pond')&&x>246&&x<342&&y<268) continue; const col=['#FFFFFF','#F7D24A','#F29AB8','#B7A4F2'][i%4]; s+=`<path d="M${x.toFixed(1)} ${(y+4).toFixed(1)}v-5" stroke="#4E8F45" stroke-width="1"/>`+[0,1,2,3,4].map(k=>{const a=k/5*Math.PI*2;return `<circle cx="${(x+Math.cos(a)*1.6).toFixed(1)}" cy="${(y-2+Math.sin(a)*1.6).toFixed(1)}" r="1.25" fill="${col}"/>`;}).join('')+`<circle cx="${x.toFixed(1)}" cy="${(y-2).toFixed(1)}" r=".8" fill="#E8A31B"/>`;}
+      for(let i=0;i<(tall?34:18);i++){const x=10+g()*340, y=244+g()*(tall?Math.min(FB-262,200):30); if(Math.abs(x-180)<18&&has('path')) continue; if(has('pond')&&x>246&&x<342&&y<268) continue; const col=['#FFFFFF','#F7D24A','#F29AB8','#B7A4F2'][i%4]; s+=`<path d="M${x.toFixed(1)} ${(y+4).toFixed(1)}v-5" stroke="#4E8F45" stroke-width="1"/>`+[0,1,2,3,4].map(k=>{const a=k/5*Math.PI*2;return `<circle cx="${(x+Math.cos(a)*1.6).toFixed(1)}" cy="${(y-2+Math.sin(a)*1.6).toFixed(1)}" r="1.25" fill="${col}"/>`;}).join('')+`<circle cx="${x.toFixed(1)}" cy="${(y-2).toFixed(1)}" r=".8" fill="#E8A31B"/>`;}
       o+=wrap('grass',s,.2); }
-    { const g=rng(21); let s=''; for(let i=0;i<34;i++){const x=i*11+g()*6, h=7+g()*9; s+=`<path class="blade" d="M${x.toFixed(1)} 281 q${(g()*4-2).toFixed(1)} ${(-h*.6).toFixed(1)} ${(g()*6-3).toFixed(1)} ${(-h).toFixed(1)}" stroke="${sk.dark}" stroke-width="2.4" fill="none" stroke-linecap="round" style="animation-delay:${(-g()*3).toFixed(2)}s"/>`;}
+    { const g=rng(21); let s=''; for(let i=0;i<34;i++){const x=i*11+g()*6, h=7+g()*9; s+=`<path class="blade" d="M${x.toFixed(1)} ${(FB+1).toFixed(1)} q${(g()*4-2).toFixed(1)} ${(-h*.6).toFixed(1)} ${(g()*6-3).toFixed(1)} ${(-h).toFixed(1)}" stroke="${sk.dark}" stroke-width="2.4" fill="none" stroke-linecap="round" style="animation-delay:${(-g()*3).toFixed(2)}s"/>`;}
       const bp={dark:sk.dark,mid:base.dark,light:base.mid,rim:base.mid,vein:base.light}, bq=rng(8);
-      [[10,268,17],[34,276,11],[350,270,16],[326,279,10]].forEach(([x,y,rad])=>{const p=clumpParts({x,y,r:rad},bp,bq,'',0); s+=p.u+p.m+p.rim+p.h;});
+      [[10,FB-12,17],[34,FB-4,11],[350,FB-10,16],[326,FB-1,10]].forEach(([x,y,rad])=>{const p=clumpParts({x,y,r:rad},bp,bq,'',0); s+=p.u+p.m+p.rim+p.h;});
       o+=s; }
     if(has('butterflies')){ const b=(cl,c1,c2)=>`<g class="${cl}"><g class="wing"><ellipse cx="-3.2" cy="-1.2" rx="3.6" ry="4.4" fill="${c1}"/><ellipse cx="3.2" cy="-1.2" rx="3.6" ry="4.4" fill="${c1}"/><ellipse cx="-2.5" cy="3" rx="2.3" ry="2.5" fill="${c2}"/><ellipse cx="2.5" cy="3" rx="2.3" ry="2.5" fill="${c2}"/><circle cx="-3.4" cy="-2" r=".9" fill="#fff" opacity=".7"/><circle cx="3.4" cy="-2" r=".9" fill="#fff" opacity=".7"/></g><rect x="-.6" y="-4" width="1.2" height="8" rx=".6" fill="#2A2320"/></g>`; o+=wrap('butterflies',b('bf1','#F59BC0','#E86FA3')+b('bf2','#FFD166','#F4A23B'),1.2); }
     if(has('fireflies')){ const f=rng(11); let s=''; for(let i=0;i<16;i++){const x=90+f()*180, y=80+f()*150; s+=`<g class="ff" style="--t:${(4+f()*4).toFixed(1)}s;--dl:${(-f()*4).toFixed(1)}s;--fx:${(f()*40-20).toFixed(0)}px;--fy:${(f()*30-15).toFixed(0)}px"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="url(#gFF)"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.4" fill="#FFF6A8"/></g>`;} o+=wrap('fireflies',s,1.4); }
-    o+=`<g id="fx"></g><rect width="360" height="280" fill="url(#gVig)" pointer-events="none"/></svg>`;
+    o+=`<g id="fx"></g><rect y="${VY.toFixed(1)}" width="360" height="${VH.toFixed(1)}" fill="url(#gVig)" pointer-events="none"/></svg>`;
     return o;
   }
 
   let leafTimer=null;
   function startLeaves(){
     stopLeaves(); if(reduce) return;
-    leafTimer=setInterval(()=>{
+    leafTimer=setInterval(()=>dropLeaf(),1800);
+  }
+  function dropLeaf(fast){
       const fx=$('fx'); if(!fx||!S.tips.length||stageOf(ledger().clean)<3) return;
       const t=S.tips[Math.floor(Math.random()*S.tips.length)];
       const pal=S.pal?[S.pal.mid,S.pal.light,S.pal.rim]:LEAF.day;
       const el=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
       el.setAttribute('cx',t.x+(Math.random()-.5)*t.r); el.setAttribute('cy',t.y); el.setAttribute('rx',2.6); el.setAttribute('ry',1.4);
       el.setAttribute('fill',pal[Math.floor(Math.random()*pal.length)]); el.setAttribute('class','fall');
-      el.style.setProperty('--t',(4+Math.random()*3)+'s'); el.style.setProperty('--fx',(Math.random()*80-30)+'px'); el.style.setProperty('--fy',(238-t.y+Math.random()*10)+'px');
+      el.style.setProperty('--t',(fast?2.2+Math.random()*1.5:4+Math.random()*3)+'s'); el.style.setProperty('--fx',(Math.random()*80-30)+'px'); el.style.setProperty('--fy',(238-t.y+Math.random()*10)+'px');
       fx.appendChild(el); el.addEventListener('animationend',()=>el.remove());
-    },1800);
   }
   function stopLeaves(){ if(leafTimer){clearInterval(leafTimer);leafTimer=null;} }
 
   function renderGrove(anim,popId){
     const L=ledger(), st=stageOf(L.clean), bal=L.total-spent();
     $('scene').innerHTML=buildScene(anim,popId);
-    $('stageBadge').textContent=STAGES[st].n;
+    $('stageDays').textContent=`${L.clean} clean ${L.clean===1?'day':'days'}`;
     $('stageName').textContent=STAGES[st].n;
     const nx=STAGES[st+1];
     if(nx){ const need=nx.at-L.clean; $('stageNext').textContent=`${need} more clean ${need===1?'day':'days'} until it becomes a ${nx.n.toLowerCase()}. Slips never shrink it.`; $('stageBar').style.width=((L.clean-STAGES[st].at)/(nx.at-STAGES[st].at)*100)+'%'; }
     else { $('stageNext').textContent='Fully grown. It keeps everything you add.'; $('stageBar').style.width='100%'; }
-    animNum($('bal2'),Math.max(0,bal));
+    animNum($('bal2'),Math.max(0,bal)); animNum($('fabBal'),Math.max(0,bal));
+    const can=SHOP.filter(it=>!S.grove.owned.includes(it.id)&&!(it.st&&st>=0&&st<it.st)&&bal>=it.c).length;
+    $('fabDot').hidden=!can; $('fabDot').textContent=can;
+    $('groveMenuBtn').setAttribute('aria-label',can?`Upgrades, ${can} you can afford`:'Upgrades');
     $('skies').innerHTML=['morning','sunset','night','aurora'].filter(k=>k==='morning'||S.grove.owned.includes(k)).map(k=>`<button class="sky${S.grove.sky===k?' on':''}" data-sky="${k}"><i style="background:${SKY[k].sw}"></i>${SKY[k].n}</button>`).join('')
       + (S.grove.owned.some(id=>SKY[id])?'':`<span class="sky" style="cursor:default;color:var(--faint);border-style:dashed">Buy a sky below</span>`);
     $('shop').innerHTML=SHOP.map((it,k)=>{
@@ -1142,10 +1205,9 @@ img{max-width:100%}
     const b=e.target.closest('[data-buy]');
     if(b){ const it=SHOP.find(x=>x.id===b.dataset.buy); if(!it||balance()<it.c) return;
       S.grove.owned.push(it.id); if(it.sky) S.grove.sky=it.id;
-      sparks(b,22,70); renderGrove(false,it.sky?null:it.id); renderPill();
-      const card=document.querySelector(`[data-item="${it.id}"]`); if(card){card.classList.add('bought');}
+      sparks(b,22,70); renderPill(); closeSheet();
+      setTimeout(()=>renderGrove(false,it.sky?null:it.id),reduce?0:420);
       toast(`${it.n} added`, it.sky?'Your grove has a new sky.':'Look at your tree.');
-      document.querySelector('.scene-card').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
       save('grove/state',S.grove); return; }
     const t=e.target.closest('[data-toggle]');
     if(t){ const id=t.dataset.toggle, i=S.grove.hidden.indexOf(id); if(i>=0) S.grove.hidden.splice(i,1); else S.grove.hidden.push(id);
@@ -1154,13 +1216,38 @@ img{max-width:100%}
     if(s){ S.grove.sky=s.dataset.sky; renderGrove(false); save('grove/state',S.grove); return; }
     const tab=e.target.closest('[data-tab]'); if(tab){ go(tab.dataset.tab); return; }
   });
-  $('pill').addEventListener('click',()=>go('grove'));
+  $('pill').addEventListener('click',()=>{ if(S.tab==='grove') openSheet(); else go('grove'); });
+
+  /* ---------- UPGRADES SHEET ---------- */
+  const sheet=$('groveSheet');
+  function openSheet(){ sheet.classList.add('open'); sheet.setAttribute('aria-hidden','false'); $('groveBackdrop').classList.add('show'); setTimeout(()=>$('sheetClose').focus({preventScroll:true}),300); }
+  function closeSheet(){ if(!sheet.classList.contains('open')) return; sheet.classList.remove('open'); sheet.style.transform=''; sheet.setAttribute('aria-hidden','true'); $('groveBackdrop').classList.remove('show'); }
+  $('groveMenuBtn').addEventListener('click',openSheet);
+  $('sheetClose').addEventListener('click',closeSheet);
+  $('groveBackdrop').addEventListener('click',closeSheet);
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeSheet(); });
+  (function(){
+    let y0=null, dy=0;
+    const down=e=>{ y0=e.clientY; dy=0; sheet.classList.add('dragging'); e.target.setPointerCapture&&e.target.setPointerCapture(e.pointerId); };
+    const move=e=>{ if(y0===null) return; dy=Math.max(0,e.clientY-y0); sheet.style.transform=`translateY(${dy}px)`; };
+    const up=()=>{ if(y0===null) return; y0=null; sheet.classList.remove('dragging'); sheet.style.transform=''; if(dy>90) closeSheet(); };
+    [$('sheetGrab'),document.querySelector('.sheet-head')].forEach(el=>{ el.addEventListener('pointerdown',e=>{ if(e.target.closest('.sheet-x')) return; down(e); }); el.addEventListener('pointermove',move); el.addEventListener('pointerup',up); el.addEventListener('pointercancel',up); });
+  })();
+
+  /* tap the tree */
+  $('groveStage').addEventListener('click',e=>{
+    const sw=document.querySelector('.sway');
+    if(sw){ sw.classList.remove('shake'); void sw.getBBox; sw.classList.add('shake'); setTimeout(()=>sw.classList.remove('shake'),720); for(let i=0;i<5;i++) setTimeout(()=>dropLeaf(true),i*90); }
+    const p=document.createElement('div'); p.style.cssText=`position:fixed;left:${e.clientX-2}px;top:${e.clientY-2}px;width:4px;height:4px;`; document.body.appendChild(p); sparks(p,sw?10:16,40); setTimeout(()=>p.remove(),50);
+  });
+  let rsT=null; window.addEventListener('resize',()=>{ clearTimeout(rsT); rsT=setTimeout(()=>{ if(S.tab==='grove') renderGrove(false); },200); });
 
   function go(tab){
     S.tab=tab; try{localStorage.setItem('ascent-tab',tab);}catch(e){}
     ['today','grove','progress'].forEach((t,i)=>{ const v=$('v-'+t); v.classList.toggle('on',t===tab); if(t===tab) $('navInd').style.transform=`translateX(${i*100}%)`; });
     document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));
-    if(tab==='grove') renderGrove(true); else stopLeaves();
+    document.body.classList.toggle('grove-mode',tab==='grove');
+    if(tab==='grove') renderGrove(true); else { stopLeaves(); closeSheet(); }
     if(tab==='progress') renderProgress();
     if(tab==='today'){ S.itemSig=''; renderToday(); }
     window.scrollTo({top:0,behavior:'auto'});
